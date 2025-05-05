@@ -1,26 +1,11 @@
-# Nuxt Minimal Starter
+# Nuxt Travel Log
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## Setup
-
-Make sure to install dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
+Look at the [Youtube tutorial](https://www.youtube.com/watch?v=DK93dqmJJYg&t=971s) to learn more.
 
 ## Development Server
+
+using npm as pnpm has some known incompatabilies. nuxi add module for eslint failed to setup everything
+but worked with npm. In hindsight this may have been due to adding eslint instead of @nuxt/eslint
 
 Start the development server on `http://localhost:3000`:
 
@@ -28,14 +13,6 @@ Start the development server on `http://localhost:3000`:
 # npm
 npm run dev
 
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
 ## Production
@@ -44,32 +21,15 @@ Build the application for production:
 
 ```bash
 # npm
-npm run build
+npm build
 
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
 Locally preview production build:
 
 ```bash
-# npm
-npm run preview
-
 # pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+npm preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
