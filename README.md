@@ -33,3 +33,16 @@ npm preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+# CI config
+
+configured with eslint
+manual run
+
+```
+pnpm lint
+pnpm lint:fix
+```
+
+husky precommit
+github action on pull request.
