@@ -15,6 +15,7 @@ export default withNuxt(
         indent: 2,
         quotes: 'single',
       }, // Remember to specify the file glob here, otherwise it might cause the vue plugin to handle non-vue files
+      ignores: ['**/migrations/*'],
     },
     {
       files: ['**/*.vue'],
