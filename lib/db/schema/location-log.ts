@@ -8,7 +8,7 @@ export const locationLogImage = sqliteTable('locationLogImage', {
   locationLogId: int()
     .notNull()
     .references(() => location.id),
-  userId: int().notNull().references(() => user.id, { onDelete: 'cascade' }),
+  userId: text().notNull().references(() => user.id),
   createdAt: int()
     .notNull()
     .$default(() => Date.now()),

@@ -8,7 +8,7 @@ export const location = sqliteTable('location', {
   description: text(),
   lat: real().notNull(),
   long: real().notNull(),
-  userId: int().notNull().references(() => user.id, { onDelete: 'cascade' }),
+  userId: text().notNull().references(() => user.id),
   createdAt: int()
     .notNull()
     .$default(() => Date.now()),
