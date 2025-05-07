@@ -1,5 +1,4 @@
 import { int, real, sqliteTable, text } from 'drizzle-orm/sqlite-core'
-
 import { location } from './location'
 
 export const locationLog = sqliteTable('locationLog', {
