@@ -1,10 +1,15 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import tailwindcss from '@tailwindcss/vite'
+import tailwindcss from '@tailwindcss/vite';
 
-import './lib/env'
+import './lib/env';
 
 export default defineNuxtConfig({
-  modules: ['@nuxt/eslint', '@nuxt/icon', '@nuxtjs/color-mode'],
+  modules: [
+    '@nuxt/icon',
+    '@nuxtjs/color-mode',
+    '@nuxt/eslint',
+    '@pinia/nuxt',
+  ],
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
   colorMode: {
@@ -16,9 +21,9 @@ export default defineNuxtConfig({
   },
   eslint: {
     config: {
-      standalone: false,
-      autoInit: false,
-      stylistic: true,
+      // formatter: true,
+      stylistic: { semi: true },
+
     },
   },
-})
+});

@@ -1,6 +1,6 @@
-import { int, real, sqliteTable, text } from 'drizzle-orm/sqlite-core'
-import { user } from './auth'
-import { location } from './location'
+import { int, real, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { user } from './auth';
+import { location } from './location';
 
 export const locationLog = sqliteTable('locationLog', {
   id: int().primaryKey({ autoIncrement: true }),
@@ -13,7 +13,7 @@ export const locationLog = sqliteTable('locationLog', {
   locationId: int()
     .notNull()
     .references(() => location.id),
-  userId: int().notNull().references(() => user.id, { onDelete: 'cascade' }),
+  userId: text().notNull().references(() => user.id),
   createdAt: int()
     .notNull()
     .$default(() => Date.now()),
@@ -21,4 +21,4 @@ export const locationLog = sqliteTable('locationLog', {
     .notNull()
     .$default(() => Date.now())
     .$onUpdate(() => Date.now()),
-})
+});

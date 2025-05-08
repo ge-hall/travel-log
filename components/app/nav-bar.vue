@@ -1,13 +1,16 @@
 <template>
   <div class="navbar bg-primary text-primary-content">
     <div class="navbar-start">
-      <NuxtLink to="/" class="btn btn-ghost text-xl">
+      <NuxtLink
+        to="/"
+        class="btn btn-ghost text-xl"
+      >
         Travel Log
       </NuxtLink>
     </div>
     <div class="navbar-end">
-      <AppThemeToggle class="mx-4" />
-      <a class="btn btn-accent">Sign In with GitHub <Icon name="tabler:brand-github" size="24" /></a>
+      <AppThemeToggle />
+      <AppAuthButton />
     </div>
   </div>
 </template>
