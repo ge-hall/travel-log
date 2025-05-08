@@ -1,6 +1,6 @@
-import { drizzle } from 'drizzle-orm/libsql'
-import env from '../env'
-import * as schema from './schema'
+import { drizzle } from 'drizzle-orm/libsql';
+import env from '../env';
+import * as schema from './schema';
 
 // You can specify any property from the libsql connection options
 const db = drizzle({
@@ -10,6 +10,6 @@ const db = drizzle({
   },
   schema,
   casing: 'snake_case',
-})
+});
 
-export default db
+export default db;

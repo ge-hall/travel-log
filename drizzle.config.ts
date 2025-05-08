@@ -1,5 +1,5 @@
-import { defineConfig } from 'drizzle-kit'
-import env from './lib/env'
+import { defineConfig } from 'drizzle-kit';
+import env from './lib/env';
 
 export default defineConfig({
   out: './lib/db/migrations',
@@ -11,4 +11,4 @@ export default defineConfig({
     authToken:
       env.NODE_ENV === 'development' ? undefined : env.TURSO_AUTH_TOKEN,
   },
-})
+});

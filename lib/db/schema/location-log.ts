@@ -1,6 +1,6 @@
-import { int, sqliteTable, text } from 'drizzle-orm/sqlite-core'
-import { user } from './auth'
-import { location } from './location'
+import { int, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { user } from './auth';
+import { location } from './location';
 
 export const locationLogImage = sqliteTable('locationLogImage', {
   id: int().primaryKey({ autoIncrement: true }),
@@ -16,4 +16,4 @@ export const locationLogImage = sqliteTable('locationLogImage', {
     .notNull()
     .$default(() => Date.now())
     .$onUpdate(() => Date.now()),
-})
+});
