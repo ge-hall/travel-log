@@ -1,5 +1,16 @@
 <script setup lang="ts">
 const authStore = useAuthStore();
+const userInitials = computed(() => {
+  if (!authStore.user) return '';
+  const nameTokens = authStore.user.name.split(' ');
+  let initials = '';
+  nameTokens.forEach((token, i) => {
+    // only first two initials
+    if (i > 1) return;
+    initials += token.charAt(0).toUpperCase();
+  });
+  return initials;
+});
 </script>
 
 <template>
@@ -10,7 +21,7 @@ const authStore = useAuthStore();
     <div
       tabindex="0"
       role="button"
-      class="btn m-1"
+      class="btn btn-ghost m-1"
     >
       <div
         v-if="authStore.user.image"
@@ -23,7 +34,7 @@ const authStore = useAuthStore();
           >
         </div>
       </div>
-      {{ authStore.user.name }}
+      {{ userInitials }}
     </div>
     <ul
       tabindex="0"
