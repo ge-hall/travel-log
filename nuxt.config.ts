@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxt/eslint',
     '@pinia/nuxt',
+    '@vee-validate/nuxt',
   ],
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],

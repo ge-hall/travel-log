@@ -39,27 +39,29 @@ const toggleSidebar = () => {
       <div class="flex flex-col gap-0 mx-0.5 ">
         <AppSideBarButton
           :show-label="isSidebarOpen"
-          to="dashboard"
+          to="/dashboard"
           label="Locations"
           icon="tabler:map"
         />
 
         <AppSideBarButton
           :show-label="isSidebarOpen"
-          to="AddLocation"
+          to="/dashboard/add-location"
           label="Add Location"
-          icon="tabler:plus"
+          icon="tabler:circle-plus-filled"
         />
 
         <div class="divider" />
         <AppSideBarButton
           :show-label="isSidebarOpen"
-          to="sign-out"
+          to="/sign-out"
           label="Sign Out"
           icon="tabler:logout"
         />
       </div>
     </div>
-    <div class="flex-1 bg-gray-600" />
+    <div class="flex-1 ">
+      <NuxtPage />
+    </div>
   </div>
 </template>
