@@ -17,7 +17,8 @@ const props = defineProps<{
       </legend>
       <Field
         :name="props.name || 'name'"
-        :as="props.type || 'input'"
+        :as="props.type !== 'number' ? props.type : 'input'"
+        :type="props.type"
         class="w-full"
         :class="{
           'input-error': props.errorField,

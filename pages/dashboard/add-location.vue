@@ -1,30 +1,67 @@
 <script setup lang="ts">
-import { toTypedSchema } from '@vee-validate/zod';
-import { InsertLocationSchema } from '~/lib/db/schema/location';
+// import { toTypedSchema } from '@vee-validate/zod';
+import type { FetchError } from 'ofetch';
+// import { InsertLocationSchema } from '~/lib/db/schema/location';
 
-const { handleSubmit, errors } = useForm({
-  validationSchema: toTypedSchema(InsertLocationSchema),
+const submitError = ref('');
+
+const router = useRouter();
+const { handleSubmit, errors, meta } = useForm({
+  // validationSchema: toTypedSchema(InsertLocationSchema),
 });
 
-const onSubmit = handleSubmit((values) => {
+const onSubmit = handleSubmit(async (values) => {
   console.log(`submitting values:${JSON.stringify(values)}`);
   console.log(values);
+  try {
+    const inserted = await $fetch('/api/locations', {
+      method: 'post',
+      body: values,
+    });
+    console.log(inserted);
+  }
+  catch (e) {
+    const error = e as FetchError;
+    console.log(error.data);
+    submitError.value = error.statusMessage || 'An unknown error occured!';
+  }
 });
 
-effect(() => {
-  console.log(toRaw(errors.value));
+onBeforeRouteLeave(() => {
+  if (meta.value.dirty) {
+    const confirm = window.confirm(
+      'Are you sure you want to leave? Any unsaved changes will be lost!',
+    );
+    if (!confirm) {
+      return false;
+    }
+  }
 });
 </script>
 
 <template>
   <div class="container max-w-md mx-auto">
     <div class="my-4">
-      <h1> Add Location</h1>
+      <h1>Add Location</h1>
+
       <p class="text-sm">
-        A location is a place you have travelled or will travel to. It can be a city, country, or
-        state, or point of interest. You can add specific times you visited the location after adding it.
+        A location is a place you have travelled or will travel to. It can be a
+        city, country, or state, or point of interest. You can add specific
+        times you visited the location after adding it.
       </p>
     </div>
+    <span
+      v-if="submitError"
+      role="alert"
+      class="alert alert-error"
+    >
+      <Icon
+        name="tabler:alert-circle"
+        size="24"
+      />
+      <span>
+        {{ submitError }}</span>
+    </span>
     <form
       class="flex flex-col gap-2"
       @submit.prevent="onSubmit"
@@ -60,6 +97,7 @@ effect(() => {
         <button
           class="btn btn-outline"
           type="button"
+          @click="router.back()"
         >
           Cancel
           <Icon
