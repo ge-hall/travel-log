@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@pinia/nuxt',
     '@vee-validate/nuxt',
+    'nuxt-csurf',
   ],
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
@@ -28,3 +29,4 @@ export default defineNuxtConfig({
     },
   },
 });
+

@@ -19,7 +19,14 @@ export const useAuthStore = defineStore('authStore', () => {
     });
   };
   async function signOut() {
-    await authClient.signOut();
+    const { csrf } = useCsrf();
+    const headers = new Headers();
+    headers.append('X-CSRF-TOKEN', csrf);
+    await authClient.signOut({
+      fetchOptions: {
+        headers,
+      },
+    });
   }
 
   return {

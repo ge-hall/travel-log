@@ -1,34 +1,41 @@
 <script setup lang="ts">
-// import { toTypedSchema } from '@vee-validate/zod';
 import type { FetchError } from 'ofetch';
-// import { InsertLocationSchema } from '~/lib/db/schema/location';
+import { toTypedSchema } from '@vee-validate/zod';
+import { InsertLocationSchema } from '~/lib/db/schema/location';
 
 const submitError = ref('');
-
+const loading = ref(false);
+const submitted = ref(false);
 const router = useRouter();
-const { handleSubmit, errors, meta } = useForm({
-  // validationSchema: toTypedSchema(InsertLocationSchema),
+const { handleSubmit, errors, meta, setErrors } = useForm({
+  validationSchema: toTypedSchema(InsertLocationSchema),
 });
+const { $csrfFetch } = useNuxtApp();
 
 const onSubmit = handleSubmit(async (values) => {
-  console.log(`submitting values:${JSON.stringify(values)}`);
-  console.log(values);
+  loading.value = true;
+  submitError.value = '';
   try {
-    const inserted = await $fetch('/api/locations', {
+    await $csrfFetch('/api/locations', {
       method: 'post',
       body: values,
     });
-    console.log(inserted);
+    navigateTo('/dashboard');
+    submitted.value = true;
   }
   catch (e) {
     const error = e as FetchError;
-    console.log(error.data);
+    if (error.data?.data) {
+      console.log(error.data?.data);
+      setErrors(error.data?.data);
+    }
     submitError.value = error.statusMessage || 'An unknown error occured!';
   }
+  loading.value = false;
 });
 
 onBeforeRouteLeave(() => {
-  if (meta.value.dirty) {
+  if (!submitted.value && meta.value.dirty) {
     const confirm = window.confirm(
       'Are you sure you want to leave? Any unsaved changes will be lost!',
     );
@@ -70,6 +77,7 @@ onBeforeRouteLeave(() => {
         label="Name"
         name="name"
         type="input"
+        :disabled="loading"
         :error-field="errors.name"
       />
 
@@ -79,24 +87,28 @@ onBeforeRouteLeave(() => {
         type="textarea"
         :rows="5"
         placeholder="Describe this location perhaps with a story about why you visited or what you saw there."
+        :disabled="loading"
         :error-field="errors.description"
       />
       <AppFormField
         label="Latitude"
         name="lat"
         type="number"
+        :disabled="loading"
         :error-field="errors.lat"
       />
       <AppFormField
         label="Longitude"
         name="long"
         type="number"
+        :disabled="loading"
         :error-field="errors.long"
       />
       <div class="flex flex-row gap-2 justify-end">
         <button
           class="btn btn-outline"
           type="button"
+          :disabled="loading"
           @click="router.back()"
         >
           Cancel
@@ -109,9 +121,15 @@ onBeforeRouteLeave(() => {
         <button
           class="btn btn-primary"
           type="submit"
+          :disabled="loading"
         >
           Add
+          <span
+            v-if="loading"
+            class="loading loading-ring loading-md"
+          />
           <Icon
+            v-else
             name="tabler:circle-plus-filled"
             size="20"
             class="px-1"

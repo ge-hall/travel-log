@@ -5,6 +5,7 @@ const props = defineProps<{
   type: 'input' | 'textarea' | 'number';
   rows?: number;
   placeholder?: string;
+  disabled?: boolean;
   errorField?: string;
 }>();
 </script>
@@ -27,6 +28,7 @@ const props = defineProps<{
         }"
         :rows="props.rows || 0"
         :placeholder="props.placeholder || ''"
+        :disabled="props.disabled || false"
       />
 
       <p
