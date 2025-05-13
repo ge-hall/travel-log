@@ -1,10 +1,7 @@
-import { eq, type DrizzleError } from 'drizzle-orm';
-import slugify from 'slug';
-import { customAlphabet } from 'nanoid';
-import { InsertLocationSchema, location } from '~/lib/db/schema/location';
-import db from '~/lib/db';
+import type { DrizzleError } from 'drizzle-orm';
+import { InsertLocationSchema } from '~/lib/db/schema/location';
+import { getUniqueSlugForLocationName, insertLocation } from '~/lib/queries/location';
 
-const nanoid = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 5);
 export default defineEventHandler(async (event) => {
   if (!event.context.user) {
     return sendError(event, createError({
@@ -39,21 +36,7 @@ export default defineEventHandler(async (event) => {
   // console.log(event.context.user);
 
   try {
-    let slug = slugify(validatedBody.data.name);
-    let exists = !!(await db.query.location.findFirst(
-      {
-        where: eq(location.slug, slug),
-      }));
-    while (exists) {
-      const postfixed_slug = `${slug}-${nanoid()}`;
-      exists = !!(await db.query.location.findFirst(
-        {
-          where: eq(location.slug, postfixed_slug),
-        }));
-      if (!exists) {
-        slug = postfixed_slug;
-      }
-    }
+    const slug = await getUniqueSlugForLocationName(validatedBody.data.name, event.context.user.id);
 
     const data = {
       ...validatedBody.data,
@@ -62,7 +45,7 @@ export default defineEventHandler(async (event) => {
     };
 
     // console.log(data);
-    const created = await db.insert(location).values(data).returning();
+    const created = await insertLocation(data);
     return created;
   }
   catch (e) {
