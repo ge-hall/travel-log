@@ -1,15 +1,9 @@
 import type { DrizzleError } from 'drizzle-orm';
 import { InsertLocationSchema } from '~/lib/db/schema/location';
 import { getUniqueSlugForLocationName, insertLocation } from '~/lib/queries/location';
+import defineAuthenticatedEventHandler from '~/utils/define-auth-event-handler';
 
-export default defineEventHandler(async (event) => {
-  if (!event.context.user) {
-    return sendError(event, createError({
-      statusCode: 401,
-      statusMessage: 'Unauthorized',
-    }));
-  }
-
+export default defineAuthenticatedEventHandler(async (event) => {
   const validatedBody = await readValidatedBody(event, InsertLocationSchema.safeParse);
 
   if (!validatedBody.success) {
@@ -36,21 +30,27 @@ export default defineEventHandler(async (event) => {
   // console.log(event.context.user);
 
   try {
-    const slug = await getUniqueSlugForLocationName(validatedBody.data.name, event.context.user.id);
+    // check user.id exists before queryieng db.
+    if (!event.context.user?.id) {
+      return sendError(event, createError({
+        statusCode: 401,
+        statusMessage: 'No user logged in.',
+      }));
+    }
 
+    // use unique slug per location and user.
+    const slug = await getUniqueSlugForLocationName(validatedBody.data.name, event.context.user.id);
     const data = {
       ...validatedBody.data,
       slug,
       userId: event.context.user.id,
     };
 
-    // console.log(data);
     const created = await insertLocation(data);
     return created;
   }
   catch (e) {
     const error = e as DrizzleError;
-    console.log('INSERT ERROR', error);
     if (error.message === 'SQLITE_CONSTRAINT: SQLite error: UNIQUE constraint failed: location.slug') {
       return sendError(event, createError({
         statusCode: 409,

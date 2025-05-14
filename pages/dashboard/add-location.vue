@@ -29,7 +29,8 @@ const onSubmit = handleSubmit(async (values) => {
       console.log(error.data?.data);
       setErrors(error.data?.data);
     }
-    submitError.value = error.statusMessage || 'An unknown error occured!';
+    // need to use error.data.statusMessage instead of error.statusMessage on propuction
+    submitError.value = error.data?.statusMessage || error.statusMessage || 'An unknown error occured!';
   }
   loading.value = false;
 });
