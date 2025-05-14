@@ -11,7 +11,8 @@ const { data, status } = useFetch('/api/locations', { lazy: true });
       <span class="loading loading-ring loading-md" />
     </div>
     <div
-      v-else-if="data"
+      v-else-if="data && data.length > 0"
+
       class="flex flex-wrap mt-4 gap-2"
     >
       <div
