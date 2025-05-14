@@ -10,6 +10,13 @@ const nanoid = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 5);
 export async function insertLocation(data: { slug: string; userId: string; name: string; description: string | null; lat: number; long: number }) {
   return await db.insert(location).values(data).returning();
 }
+/**  Get locations for current user */
+export async function getLocationsForCurrentUser(userId: string) {
+  return await db.query.location.findMany(
+    {
+      where: eq(location.userId, userId),
+    });
+}
 /** Check if slug exists */
 export async function slugExists(slug: string, userId: string) {
   return !!(await db.query.location.findFirst(
