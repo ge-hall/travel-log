@@ -17,7 +17,7 @@ const { data, status } = useFetch('/api/locations', { lazy: true });
       <div
         v-for="location in data"
         :key="location.id"
-        class="card compact-card bg-base-200 h-40 w-72"
+        class="card compact-card bg-base-300 h-40 w-72"
       >
         <div class="card-body">
           <h3 class="text-xl">
