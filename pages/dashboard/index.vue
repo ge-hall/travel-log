@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import { useLocationStore } from '~/stores/locations';
 
 const locationStore = useLocationStore();
@@ -8,7 +7,6 @@ const { locations, status } = storeToRefs(locationStore);
 onMounted(() => {
   locationStore.refresh();
 });
-
 </script>
 
 <template>
@@ -22,7 +20,6 @@ onMounted(() => {
     <div
 
       v-else-if="locations && locations.length > 0"
-
 
       class="flex flex-wrap mt-4 gap-2"
     >
