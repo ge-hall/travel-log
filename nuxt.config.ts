@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@vee-validate/nuxt',
     'nuxt-csurf',
+    'nuxt-maplibre',
   ],
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
@@ -20,6 +21,9 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: ['maplibre-gl'],
+    },
   },
   eslint: {
     config: {
@@ -29,3 +33,4 @@ export default defineNuxtConfig({
     },
   },
 });
+
