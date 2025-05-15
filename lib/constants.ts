@@ -1,0 +1,1 @@
+export const CENTER_GOLD_COAST = [153.414536, -27.967291];
