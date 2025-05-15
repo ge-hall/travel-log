@@ -1,8 +1,18 @@
 <script setup lang="ts">
+import { useSidebarLocationStore, useLocationStore } from '~/stores/locations';
+
+const route = useRoute();
+const locationStore = useLocationStore();
 const isSidebarOpen = ref(true);
+const sidebarLocationStore = useSidebarLocationStore();
 
 onMounted(() => {
   isSidebarOpen.value = localStorage.getItem('isSidebarOpen') === 'true';
+  console.log(`dashboard mounted`);
+  if (route.path !== '/dashboard') {
+    console.log(`locationStore refresh for path ${route.path}`);
+    locationStore.refresh();
+  }
 });
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value;
@@ -51,10 +61,34 @@ const toggleSidebar = () => {
           icon="tabler:circle-plus-filled"
         />
 
-        <div class="divider" />
+        <div
+          v-if="(sidebarLocationStore.loading || sidebarLocationStore.sidebarItems.length)"
+          class="divider"
+        />
+        <div
+          v-if="sidebarLocationStore.loading"
+        >
+          <div class="skeleton h-4 px-4 w-full" />
+        </div>
+        <div
+          v-else
+          class="flex flex-col bg-base-200"
+        >
+          <AppSideBarButton
+            v-for="item in sidebarLocationStore.sidebarItems"
+            :key="item.id"
+            :show-label="isSidebarOpen"
+            :to="item.href"
+            :label="item.label"
+            :icon="item.icon"
+          />
+        </div>
+        <div
+          class="divider"
+        />
         <AppSideBarButton
           :show-label="isSidebarOpen"
-          to="/sign-out"
+          to="sign-out"
           label="Sign Out"
           icon="tabler:logout"
         />
