@@ -1,5 +1,12 @@
 <script setup lang="ts">
-const { data, status } = useFetch('/api/locations', { lazy: true });
+import { useLocationStore } from '~/stores/locations';
+
+const locationStore = useLocationStore();
+const { locations, status } = storeToRefs(locationStore);
+
+onMounted(() => {
+  locationStore.refresh();
+});
 </script>
 
 <template>
@@ -11,12 +18,12 @@ const { data, status } = useFetch('/api/locations', { lazy: true });
       <span class="loading loading-ring loading-md" />
     </div>
     <div
-      v-else-if="data && data.length > 0"
+      v-else-if="locations && locations.length > 0"
 
       class="flex flex-wrap mt-4 gap-2"
     >
       <div
-        v-for="location in data"
+        v-for="location in locations"
         :key="location.id"
         class="card compact-card bg-base-300 h-40 w-72"
       >
