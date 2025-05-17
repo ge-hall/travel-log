@@ -29,7 +29,6 @@ export default defineNuxtConfig({
     config: {
       // formatter: true,
       stylistic: { semi: true },
-
     },
   },
 });
