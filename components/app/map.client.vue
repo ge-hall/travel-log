@@ -36,10 +36,28 @@ const zoom = 4;
         :coordinates="mapPoint.coord"
       >
         <template #marker>
-          <div class="tooltip tooltip-top" :data-tip="mapPoint.label">
-            <Icon name="tabler:map-pin-filled" size="20" class="text-primary" />
-          </div> </template
-      ></MglMarker>
+          <div
+            class="tooltip tooltip-top hover:cursor-pointer"
+            :data-tip="mapPoint.label"
+            @mouseenter="locationStore.currentLocation = mapPoint.id"
+            @mouseleave="locationStore.currentLocation = null"
+          >
+            <Icon
+              name="tabler:map-pin-filled"
+              size="20"
+              :class="
+                mapPoint.id === locationStore.currentLocation
+                  ? 'text-accent'
+                  : 'text-primary'
+              "
+            />
+          </div>
+        </template>
+        <mgl-popup :coordinates="mapPoint.coord">
+          <h3 class="text-xl">{{ mapPoint.label }}</h3>
+          <p>{{ mapPoint.description }}</p></mgl-popup
+        >
+      </MglMarker>
       <MglNavigationControl />
     </MglMap>
   </div>

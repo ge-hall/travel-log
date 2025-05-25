@@ -22,7 +22,13 @@ onMounted(() => {
       <div
         v-for="location in locations"
         :key="location.id"
-        class="card compact-card bg-base-300 h-40 w-72 shrink-0"
+        class="card compact-card bg-base-300 h-40 w-72 shrink-0 cursor-pointer"
+        :class="{
+          'border-accent border-2':
+            location.id == locationStore.currentLocation,
+        }"
+        @mouseenter="locationStore.currentLocation = location.id"
+        @mouseleave="locationStore.currentLocation = null"
       >
         <div class="card-body">
           <h3 class="text-xl">

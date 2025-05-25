@@ -71,6 +71,13 @@ const toggleSidebar = () => {
             to="#"
             :label="item.label"
             :icon="item.icon"
+            :icon-color="
+              item.id == locationStore.currentLocation
+                ? 'text-accent'
+                : undefined
+            "
+            @mouseenter="locationStore.currentLocation = item.id"
+            @mouseleave="locationStore.currentLocation = null"
           />
         </div>
         <div class="divider" />
